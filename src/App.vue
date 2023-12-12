@@ -4,10 +4,11 @@
       :data="projectsData"
       @setIsAdd="handleCancelAdd"
       @add="handleAddProject"
+      @delete="deleteProject"
       v-model="projectId"
     />
     <keep-alive>
-      <TheNoProject v-if="currentProject === undefined"></TheNoProject>
+      <TheNoProject v-if="isAdd === null"></TheNoProject>
       <TheProject
         v-else-if="isAdd === false"
         :data="currentProject"
@@ -66,7 +67,15 @@ export default {
       if (!data.title.trim() || !data.description.trim() || !data.date.trim()) {
         return;
       }
+      this.projectId = data.id;
       this.projectsData.unshift(data);
+      this.isAdd = false;
+    },
+    deleteProject(id) {
+      console.log("hello");
+      this.projectsData = this.projectsData.filter(
+        (project) => project.id !== id
+      );
     },
   },
   computed: {

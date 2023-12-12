@@ -4,8 +4,14 @@
       <h1>Your Projects</h1>
       <button @click="$emit('add')">+ Add Projects</button>
       <ul>
-        <li v-for="item in data" :key="item.id" @click="handleClick(item.id)">
+        <li
+          v-for="item in data"
+          :key="item.id"
+          :class="{ active: modelValue === item.id }"
+          @click="handleClick(item.id)"
+        >
           {{ item.title }}
+          <img :src="imgUrl" @click="$emit('delete', item.id)" />
         </li>
       </ul>
     </div>
@@ -13,16 +19,22 @@
 </template>
 
 <script>
+import trashIcon from "../../assets/trash-icon.svg";
+
 export default {
   props: {
     data: Array,
+    modelValue: String,
     currentProject: Object,
   },
-  emits: ["add", "setIsAdd", "update:modelValue"],
+  emits: ["add", "setIsAdd", "update:modelValue", "delete"],
+  data() {
+    return {
+      imgUrl: trashIcon,
+    };
+  },
   methods: {
     handleClick(id) {
-      console.log(id);
-
       this.$emit("setIsAdd");
       this.$emit("update:modelValue", id);
     },
@@ -58,6 +70,12 @@ button:hover {
 
 ul {
   list-style: none;
+  max-height: 75vh;
+  overflow-y: scroll;
+}
+
+ul::-webkit-scrollbar {
+  display: none;
 }
 
 li {
@@ -67,13 +85,29 @@ li {
   border-radius: 12px;
   color: #e8e8e8;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
 }
 
 li:hover {
   background-color: #e8e8e870;
 }
 
+li:hover img {
+  display: block;
+}
+
 li.active {
   border: 2px solid #e8e8e8;
+  padding: calc(1rem - 2px);
+}
+
+img {
+  height: 24px;
+  display: none;
+}
+
+img:hover {
+  filter: drop-shadow(0 0 5px #ffffff);
 }
 </style>

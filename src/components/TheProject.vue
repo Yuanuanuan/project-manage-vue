@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-    <div class="card">
-      {{ console.log(data) }}
+    <div class="card" v-if="data">
       <h1>{{ data.title }}</h1>
       <h2>{{ data.description }}</h2>
       <h3>{{ data.date }}</h3>
@@ -11,7 +10,9 @@
 
 <script>
 export default {
-  props: ["data"],
+  props: {
+    data: Object,
+  },
 };
 </script>
 
