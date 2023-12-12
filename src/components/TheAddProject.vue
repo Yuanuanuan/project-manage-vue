@@ -34,9 +34,7 @@
         />
       </div>
       <div class="button-box">
-        <BaseButton type="button" @click="$emit('cancel')"
-          >Cancel</BaseButton
-        >
+        <BaseButton type="button" @click="$emit('cancel')">Cancel</BaseButton>
         <BaseButton type="submit">Submit</BaseButton>
       </div>
     </form>
@@ -52,10 +50,17 @@ export default {
       return (Math.random() * 100).toFixed(3);
     },
     handleSubmit() {
+      const time = new Date();
+      const day = time.getDate();
+      const month = time.getMonth() + 1;
+      const year = time.getFullYear();
+      const begining = `${year}-${month}-${day}`;
+
       const newProject = {
         id: this.getRandomNum(),
         title: this.$refs.title.value,
         description: this.$refs.description.value,
+        begining,
         date: this.$refs.date.value,
       };
 

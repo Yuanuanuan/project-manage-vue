@@ -10,7 +10,7 @@
     <keep-alive>
       <TheNoProject v-if="isAdd === null"></TheNoProject>
       <TheProject
-        v-else-if="isAdd === false"
+        v-else-if="isAdd === false && currentProject"
         :data="currentProject"
       ></TheProject>
       <TheAddProject
@@ -42,6 +42,7 @@ export default {
           id: "1",
           title: "Learn Vue",
           description: "Just need to learn Vue",
+          begining: "2023-12-1",
           date: "2023-12-31",
         },
       ],
@@ -72,7 +73,6 @@ export default {
       this.isAdd = false;
     },
     deleteProject(id) {
-      console.log("hello");
       this.projectsData = this.projectsData.filter(
         (project) => project.id !== id
       );
