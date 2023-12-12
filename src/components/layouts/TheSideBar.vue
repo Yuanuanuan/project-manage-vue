@@ -2,13 +2,9 @@
   <div class="container">
     <div>
       <h1>Your Projects</h1>
-      <button @click="this.$emit('add')">+ Add Projects</button>
+      <button @click="$emit('add')">+ Add Projects</button>
       <ul>
-        <li
-          v-for="item in data"
-          :key="item.id"
-          @click="this.$emit('getProject', item.id)"
-        >
+        <li v-for="item in data" :key="item.id" @click="handleClick(item.id)">
           {{ item.title }}
         </li>
       </ul>
@@ -18,8 +14,19 @@
 
 <script>
 export default {
-  props: ["data"],
-  emits: ["add", "getProject"],
+  props: {
+    data: Array,
+    currentProject: Object,
+  },
+  emits: ["add", "setIsAdd", "update:modelValue"],
+  methods: {
+    handleClick(id) {
+      console.log(id);
+
+      this.$emit("setIsAdd");
+      this.$emit("update:modelValue", id);
+    },
+  },
 };
 </script>
 

@@ -2,11 +2,16 @@
   <main>
     <TheSideBar
       :data="projectsData"
+      @setIsAdd="handleCancelAdd"
       @add="handleAddProject"
-      @getProject="getProjectDetails"
+      v-model="projectId"
     />
     <keep-alive>
-      <TheProject v-if="isAdd === false" :data="currentProject"></TheProject>
+      <TheNoProject v-if="currentProject === undefined"></TheNoProject>
+      <TheProject
+        v-else-if="isAdd === false"
+        :data="currentProject"
+      ></TheProject>
       <TheAddProject
         v-else-if="isAdd === true"
         @push="pushProjectData"
@@ -20,12 +25,14 @@
 import TheSideBar from "./components/layouts/TheSideBar.vue";
 import TheAddProject from "./components/TheAddProject.vue";
 import TheProject from "./components/TheProject.vue";
+import TheNoProject from "./components/TheNoProject.vue";
 
 export default {
   components: {
     TheSideBar,
     TheProject,
     TheAddProject,
+    TheNoProject,
   },
   data() {
     return {
@@ -37,16 +44,15 @@ export default {
           date: "2023-12-31",
         },
       ],
-      currentProject: null,
-      isAdd: false,
+      projectId: null,
+
+      // null === NoProject
+      // true === Adding Project
+      // false === Watching Project
+      isAdd: null,
     };
   },
   methods: {
-    getProjectDetails(id) {
-      return (this.currentProject = this.projectsData.find(
-        (project) => project.id === id
-      ));
-    },
     getRandomNum() {
       return (Math.random() * 100).toFixed(3);
     },
@@ -57,14 +63,15 @@ export default {
       this.isAdd = false;
     },
     pushProjectData(data) {
-      if (
-        data.title.trim() === "" ||
-        data.description.trim() === "" ||
-        data.date.trim() === ""
-      ) {
+      if (!data.title.trim() || !data.description.trim() || !data.date.trim()) {
         return;
       }
       this.projectsData.unshift(data);
+    },
+  },
+  computed: {
+    currentProject() {
+      return this.projectsData.find((item) => item.id === this.projectId);
     },
   },
 };

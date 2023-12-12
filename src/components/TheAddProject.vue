@@ -34,7 +34,7 @@
         />
       </div>
       <div class="button-box">
-        <BaseButton type="button" @click="this.$emit('cancel')"
+        <BaseButton type="button" @click="$emit('cancel')"
           >Cancel</BaseButton
         >
         <BaseButton type="submit">Submit</BaseButton>
@@ -60,6 +60,10 @@ export default {
       };
 
       this.$emit("push", newProject);
+
+      this.$refs.title.value = "";
+      this.$refs.description.value = "";
+      this.$refs.date.value = "";
     },
   },
 };

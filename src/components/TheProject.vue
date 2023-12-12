@@ -1,17 +1,17 @@
 <template>
   <div class="container">
     <div class="card">
-      {{ console.log(currentProject) }}
-      <!-- <h1>{{ currentProject.title }}</h1>
-      <h2>{{ currentProject.description }}</h2>
-      <h3>{{ currentProject.date }}</h3> -->
+      {{ console.log(data) }}
+      <h1>{{ data.title }}</h1>
+      <h2>{{ data.description }}</h2>
+      <h3>{{ data.date }}</h3>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  inject: ["currentProject"],
+  props: ["data"],
 };
 </script>
 
