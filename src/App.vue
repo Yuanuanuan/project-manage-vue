@@ -8,9 +8,8 @@
       v-model="projectId"
     />
     <keep-alive>
-      <TheNoProject v-if="isAdd === null"></TheNoProject>
       <TheProject
-        v-else-if="isAdd === false && currentProject"
+        v-if="isAdd === false && currentProject"
         :data="currentProject"
       ></TheProject>
       <TheAddProject
@@ -18,6 +17,7 @@
         @push="pushProjectData"
         @cancel="handleCancelAdd"
       ></TheAddProject>
+      <TheNoProject v-else></TheNoProject>
     </keep-alive>
   </main>
 </template>
@@ -62,6 +62,10 @@ export default {
       this.isAdd = true;
     },
     handleCancelAdd() {
+      if (this.projectsData.length === 0) {
+        this.isAdd = null;
+        return;
+      }
       this.isAdd = false;
     },
     pushProjectData(data) {
@@ -76,6 +80,8 @@ export default {
       this.projectsData = this.projectsData.filter(
         (project) => project.id !== id
       );
+
+      this.isAdd = null;
     },
   },
   computed: {

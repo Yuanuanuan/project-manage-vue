@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="card" v-if="data">
+    <div class="card">
       <h1>{{ data.title }}</h1>
       <h3>About Project</h3>
       <p class="textarea">{{ data.description }}</p>
@@ -13,7 +13,10 @@
 <script>
 export default {
   props: {
-    data: Object,
+    data: {
+      type: Object,
+      required: true,
+    },
   },
 };
 </script>
