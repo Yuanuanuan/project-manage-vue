@@ -10,7 +10,6 @@
           name="title"
           ref="title"
           placeholder="Enter the project name"
-          required
         />
       </div>
       <div class="input-box">
@@ -20,21 +19,17 @@
           name="description"
           ref="description"
           placeholder="Enter description about the project"
-          required
         ></textarea>
       </div>
       <div class="input-box">
         <label for="dead-line">Dead Line</label>
-        <input
-          type="date"
-          id="dead-line"
-          name="dead-line"
-          ref="date"
-          required
-        />
+        <input type="date" id="dead-line" name="dead-line" ref="date" />
+      </div>
+      <div v-if="!isInputValid" class="error-msg">
+        Please make sure you're enter the all field.
       </div>
       <div class="button-box">
-        <BaseButton type="button" @click="$emit('cancel')">Cancel</BaseButton>
+        <BaseButton type="button" @click="handleCancel">Cancel</BaseButton>
         <BaseButton type="submit">Submit</BaseButton>
       </div>
     </form>
@@ -43,11 +38,25 @@
 
 <script>
 export default {
-  props: [""],
+  props: {
+    isValid: {
+      type: Boolean,
+      default: true,
+    },
+  },
   emits: ["push", "cancel"],
+  data() {
+    return {
+      isInputValid: true,
+    };
+  },
   methods: {
     getRandomNum() {
       return (Math.random() * 100).toFixed(3);
+    },
+    handleCancel() {
+      this.isInputValid = true;
+      this.$emit("cancel");
     },
     handleSubmit() {
       const time = new Date();
@@ -64,8 +73,16 @@ export default {
         date: this.$refs.date.value,
       };
 
+      if (
+        !newProject.title.trim() ||
+        !newProject.description.trim() ||
+        !newProject.date.trim()
+      ) {
+        this.isInputValid = false;
+        return;
+      }
+      this.isInputValid = true;
       this.$emit("push", newProject);
-
       this.$refs.title.value = "";
       this.$refs.description.value = "";
       this.$refs.date.value = "";
@@ -142,5 +159,29 @@ textarea::placeholder {
   font-size: 1.15rem;
   font-family: "Lora", serif;
   resize: none;
+}
+
+.error-msg {
+  margin: 1rem 0;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: red;
+  font-style: italic;
+  animation: shake 0.2s ease-in-out 2;
+}
+
+@keyframes shake {
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.25rem;
+  }
+  75% {
+    margin-left: -0.25rem;
+  }
+  100% {
+    margin-left: 0rem;
+  }
 }
 </style>

@@ -69,9 +69,6 @@ export default {
       this.isAdd = false;
     },
     pushProjectData(data) {
-      if (!data.title.trim() || !data.description.trim() || !data.date.trim()) {
-        return;
-      }
       this.projectId = data.id;
       this.projectsData.unshift(data);
       this.isAdd = false;
