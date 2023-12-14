@@ -18,38 +18,33 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, computed } from "vue";
 import trashIcon from "../../assets/trash-icon.svg";
 
-export default {
-  props: {
-    data: Array,
-    modelValue: String,
-    currentProject: Object,
+const props = defineProps({
+  data: Array,
+  modelValue: String,
+  currentProject: Object,
+});
+
+const emit = defineEmits(["close", "add", "delete", "update:modelValue"]);
+
+const imgUrl = ref(trashIcon);
+
+function handleCloseAddForms(id) {
+  emit("close");
+  projectId.value = id;
+}
+
+const projectId = computed({
+  get() {
+    return props.modelValue;
   },
-  emits: ["close", "add", "delete", "update:modelValue"],
-  data() {
-    return {
-      imgUrl: trashIcon,
-    };
+  set(id) {
+    emit("update:modelValue", id);
   },
-  computed: {
-    projectId: {
-      get() {
-        return this.modelValue;
-      },
-      set(id) {
-        return this.$emit("update:modelValue", id);
-      },
-    },
-  },
-  methods: {
-    handleCloseAddForms(id) {
-      this.$emit("close");
-      this.projectId = id;
-    },
-  },
-};
+});
 </script>
 
 <style scoped>
