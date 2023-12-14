@@ -8,7 +8,7 @@
           type="text"
           id="title"
           name="title"
-          ref="title"
+          v-model="title"
           placeholder="Enter the project name"
         />
       </div>
@@ -17,13 +17,13 @@
         <textarea
           id="description"
           name="description"
-          ref="description"
+          v-model="description"
           placeholder="Enter description about the project"
         ></textarea>
       </div>
       <div class="input-box">
         <label for="dead-line">Dead Line</label>
-        <input type="date" id="dead-line" name="dead-line" ref="date" />
+        <input type="date" id="dead-line" name="dead-line" v-model="date" />
       </div>
       <div v-if="!isInputValid" class="error-msg">
         Please make sure you're enter the all field.
@@ -36,7 +36,8 @@
   </div>
 </template>
 
-<script>
+<!-- Options API -->
+<!-- <script>
 export default {
   props: {
     isValid: {
@@ -88,6 +89,70 @@ export default {
 
       this.$emit("push", newProject);
     },
+  },
+};
+</script> -->
+
+<!-- Composition API -->
+<script>
+import { ref } from "vue";
+
+export default {
+  emits: ["push", "cancel"],
+  setup(props, ctx) {
+    const isInputValid = ref(true);
+    const title = ref("");
+    const description = ref("");
+    const date = ref("");
+
+    function getRandomNum() {
+      return (Math.random() * 100).toFixed(3);
+    }
+
+    function handleCancel() {
+      isInputValid.value = true;
+      ctx.emit("cancel");
+    }
+
+    function handleSubmit() {
+      const time = new Date();
+      const day = time.getDate();
+      const month = time.getMonth() + 1;
+      const year = time.getFullYear();
+      const beginning = `${year}-${month}-${day}`;
+
+      const newProject = {
+        id: getRandomNum(),
+        title: title.value,
+        description: description.value,
+        beginning,
+        date: date.value,
+      };
+
+      if (
+        !newProject.title.trim() ||
+        !newProject.description.trim() ||
+        !newProject.date.trim()
+      ) {
+        isInputValid.value = false;
+        return;
+      }
+      isInputValid.value = true;
+      title.value = "";
+      description.value = "";
+      date.value = "";
+
+      ctx.emit("push", newProject);
+    }
+
+    return {
+      title,
+      description,
+      date,
+      isInputValid,
+      handleCancel,
+      handleSubmit,
+    };
   },
 };
 </script>

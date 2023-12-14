@@ -18,7 +18,8 @@
   </div>
 </template>
 
-<script setup>
+<!-- Options API -->
+<!-- <script setup>
 import { ref, computed } from "vue";
 import trashIcon from "../../assets/trash-icon.svg";
 
@@ -43,6 +44,36 @@ const projectId = computed({
   },
   set(id) {
     emit("update:modelValue", id);
+  },
+});
+</script> -->
+
+<!-- Composition API -->
+<script setup>
+import { ref, computed } from "vue";
+import trashIcon from "../../assets/trash-icon.svg";
+
+const props = defineProps({
+  data: Array,
+  modelValue: String,
+  currentProject: Object,
+});
+
+const emits = defineEmits(["close", "add", "delete", "update:modelValue"]);
+
+const imgUrl = ref(trashIcon);
+
+function handleCloseAddForms(id) {
+  emits("close");
+  projectId.value = id;
+}
+
+const projectId = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(id) {
+    emits("update:modelValue", id);
   },
 });
 </script>
