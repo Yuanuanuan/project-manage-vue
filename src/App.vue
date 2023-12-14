@@ -3,6 +3,7 @@
     <TheSideBar
       v-model="projectId"
       :data="projectsData"
+      @close="handleCancelAdd"
       @add="handleAddProject"
       @delete="deleteProject"
     />

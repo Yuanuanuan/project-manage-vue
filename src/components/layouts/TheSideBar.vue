@@ -7,8 +7,8 @@
         <li
           v-for="item in data"
           :key="item.id"
-          :class="{ active: value === item.id }"
-          @click="value = item.id"
+          :class="{ active: projectId === item.id }"
+          @click="handleCloseAddForms(item.id)"
         >
           {{ item.title }}
           <img :src="imgUrl" @click="$emit('delete', item.id)" />
@@ -27,20 +27,26 @@ export default {
     modelValue: String,
     currentProject: Object,
   },
-  emits: ["add", "delete", "update:modelValue"],
+  emits: ["close", "add", "delete", "update:modelValue"],
   data() {
     return {
       imgUrl: trashIcon,
     };
   },
   computed: {
-    value: {
+    projectId: {
       get() {
         return this.modelValue;
       },
       set(id) {
         return this.$emit("update:modelValue", id);
       },
+    },
+  },
+  methods: {
+    handleCloseAddForms(id) {
+      this.$emit("close");
+      this.projectId = id;
     },
   },
 };
