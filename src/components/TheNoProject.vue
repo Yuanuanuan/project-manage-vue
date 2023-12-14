@@ -7,7 +7,8 @@
   </div>
 </template>
 
-<script>
+<!-- Options API -->
+<!-- <script>
 export default {
   data() {
     return {
@@ -16,6 +17,15 @@ export default {
     };
   },
 };
+</script> -->
+
+<!-- Composition API -->
+<script setup>
+import { ref } from "vue";
+
+const imgUrl = ref(
+  "https://github.com/Yuanuanuan/project-management/blob/main/public/logo.png?raw=true"
+);
 </script>
 
 <style scoped>
