@@ -10,7 +10,8 @@
   </div>
 </template>
 
-<script>
+<!-- Options API -->
+<!-- <script>
 export default {
   props: {
     data: {
@@ -19,6 +20,16 @@ export default {
     },
   },
 };
+</script> -->
+
+<!-- Composition API -->
+<script setup>
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true,
+  },
+});
 </script>
 
 <style scoped>
