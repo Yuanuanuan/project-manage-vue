@@ -1,11 +1,10 @@
 <template>
   <main>
     <TheSideBar
+      v-model="projectId"
       :data="projectsData"
-      @setIsAdd="handleCancelAdd"
       @add="handleAddProject"
       @delete="deleteProject"
-      v-model="projectId"
     />
     <keep-alive>
       <TheProject
@@ -42,16 +41,12 @@ export default {
           id: "1",
           title: "Learn Vue",
           description: "Just need to learn Vue",
-          begining: "2023-12-1",
+          beginning: "2023-12-1",
           date: "2023-12-31",
         },
       ],
       projectId: null,
-
-      // null === NoProject
-      // true === Adding Project
-      // false === Watching Project
-      isAdd: null,
+      isAdd: false,
     };
   },
   methods: {
@@ -60,12 +55,9 @@ export default {
     },
     handleAddProject() {
       this.isAdd = true;
+      this.projectId = null;
     },
     handleCancelAdd() {
-      if (this.projectsData.length === 0) {
-        this.isAdd = null;
-        return;
-      }
       this.isAdd = false;
     },
     pushProjectData(data) {
@@ -77,8 +69,6 @@ export default {
       this.projectsData = this.projectsData.filter(
         (project) => project.id !== id
       );
-
-      this.isAdd = null;
     },
   },
   computed: {

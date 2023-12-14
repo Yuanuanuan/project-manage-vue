@@ -5,7 +5,7 @@
       <h3>About Project</h3>
       <p class="textarea">{{ data.description }}</p>
       <h3>During time of project</h3>
-      <p>{{ data.begining }} - {{ data.date }}</p>
+      <p>{{ data.beginning }} - {{ data.date }}</p>
     </div>
   </div>
 </template>

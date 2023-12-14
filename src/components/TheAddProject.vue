@@ -63,13 +63,13 @@ export default {
       const day = time.getDate();
       const month = time.getMonth() + 1;
       const year = time.getFullYear();
-      const begining = `${year}-${month}-${day}`;
+      const beginning = `${year}-${month}-${day}`;
 
       const newProject = {
         id: this.getRandomNum(),
         title: this.$refs.title.value,
         description: this.$refs.description.value,
-        begining,
+        beginning,
         date: this.$refs.date.value,
       };
 
@@ -82,10 +82,11 @@ export default {
         return;
       }
       this.isInputValid = true;
-      this.$emit("push", newProject);
       this.$refs.title.value = "";
       this.$refs.description.value = "";
       this.$refs.date.value = "";
+
+      this.$emit("push", newProject);
     },
   },
 };

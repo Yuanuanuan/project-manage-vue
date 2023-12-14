@@ -7,8 +7,8 @@
         <li
           v-for="item in data"
           :key="item.id"
-          :class="{ active: modelValue === item.id }"
-          @click="handleClick(item.id)"
+          :class="{ active: value === item.id }"
+          @click="value = item.id"
         >
           {{ item.title }}
           <img :src="imgUrl" @click="$emit('delete', item.id)" />
@@ -27,16 +27,20 @@ export default {
     modelValue: String,
     currentProject: Object,
   },
-  emits: ["add", "setIsAdd", "update:modelValue", "delete"],
+  emits: ["add", "delete", "update:modelValue"],
   data() {
     return {
       imgUrl: trashIcon,
     };
   },
-  methods: {
-    handleClick(id) {
-      this.$emit("setIsAdd");
-      this.$emit("update:modelValue", id);
+  computed: {
+    value: {
+      get() {
+        return this.modelValue;
+      },
+      set(id) {
+        return this.$emit("update:modelValue", id);
+      },
     },
   },
 };
